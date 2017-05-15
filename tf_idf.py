@@ -8,6 +8,13 @@ from nltk.stem.snowball import SnowballStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 from tqdm import tqdm
+import unicodedata
+
+
+def remove_accents(s: str) -> str:
+    return unicodedata.normalize('NFKD', s) \
+        .encode('ASCII', 'ignore') \
+        .decode('utf-8')
 
 
 def preprocess_fundamentos(documents, stem=True, lower=True):
@@ -16,7 +23,7 @@ def preprocess_fundamentos(documents, stem=True, lower=True):
     else:
         texts = [doc.fundamento for doc in documents]
 
-    modo = [doc.modo.lower().strip() for doc in documents]
+    modo = [remove_accents(doc.modo.lower().strip()) for doc in documents]
     le = LabelEncoder()
     le.fit(modo)
     y = le.transform(modo)
