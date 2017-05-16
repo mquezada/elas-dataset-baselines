@@ -11,19 +11,23 @@ from tqdm import tqdm
 import unicodedata
 
 
-def remove_accents(s: str) -> str:
+def remove_accents(s):
     return unicodedata.normalize('NFKD', s) \
         .encode('ASCII', 'ignore') \
         .decode('utf-8')
 
 
-def preprocess_fundamentos(documents, stem=True, lower=True):
+def preprocess_fundamentos(documents, stem=True, lower=True, group=False):
     if lower:
-        texts = [doc.fundamento.lower() for doc in documents]
+        texts = [doc.lower() for doc in documents.fundamento]
     else:
-        texts = [doc.fundamento for doc in documents]
+        texts = [doc for doc in documents.fundamento]
 
-    modo = [remove_accents(doc.modo.lower().strip()) for doc in documents]
+    if group:
+        modo = [m for m in documents.group]
+    else:
+        modo = [m for m in documents.label]
+
     le = LabelEncoder()
     le.fit(modo)
     y = le.transform(modo)
