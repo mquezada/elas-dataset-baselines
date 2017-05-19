@@ -29,3 +29,23 @@ class UDP(Base):
     sintagma_obj = Column(Text)
     comp = Column(Text)
     analista = Column(Text)
+
+
+class PNUD(Base):
+    __tablename__ = 'data_conceptos_tareas_PNUD'
+
+    id = Column(Integer, primary_key=True)
+    id_ela = Column(String(255), primary_key=True)
+    tema = Column(Integer)
+    categoria = Column(Text)
+    pnud = Column(Integer)
+    concepto_original = Column(Text)
+    fundamento = Column(Text)
+    modo = Column(String(255))
+
+    def __repr__(self):
+        return f"<id=({self.id}, " \
+               f"{self.id_ela}), " \
+               f"tema={self.tema}, " \
+               f"pnud={self.pnud}, " \
+               f"concepto_orig='{self.concepto_original}'>"
